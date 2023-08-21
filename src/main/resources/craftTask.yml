@@ -1,0 +1,34 @@
+#例子如下
+task1:
+  time: 2s #=> 解析成 1天1小时1分钟
+  commands:
+    - "set time 1000 by console"
+    - "give $playerName$ minecraft:apple 1 by console"
+  doneQuicklyPercentage:
+    - "0 10" #时间消耗了 0% 到 19% 就消耗 100点卷来快速完成
+    - "20 20" #时间消耗了 20% 到 39% 就消耗 80点卷来快速完成
+    - "40 60"
+    - "90 10" #如果需求是不管过了多久都一个价格 就只写 0 100
+    -
+
+# 情况 1
+#  doneQuicklyPercentage:
+#    - "0 100" #时间过去了 0% 到 19% 就消耗 100点卷来快速完成
+#    - "20 80" #时间过去了 20% 到 100% 就消耗 80点卷来快速完成
+#       如果只写成这样没有后续了。那么就代表 20% 之后都一个价格
+
+# 情况 2
+#  doneQuicklyPercentage:
+#    - "0 100" #时间过去了 0% 到 100% 就消耗 100点卷来快速完成
+#       如果只写成这样没有后续了。那么就代表 0% 之后都一个价格、
+#       从另一方面看就代表他不会因为时间过去而减少价格
+
+#例子如下
+task2:
+  time: "4d22h40m" #=> 解析成 1天1小时1分钟
+  startCoin: "1"
+  startPoint: "1"
+  commands:
+    - "give $playerName$ minecraft:apple 1 by op"
+  doneQuicklyPercentage:
+    - "0 100" #时间消耗了 0% 到 100% 就消耗 100点卷来快速完成
