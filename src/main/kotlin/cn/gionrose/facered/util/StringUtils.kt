@@ -65,3 +65,10 @@ fun String.fromJson (): Map<String, Any>
 {
     return GsonBuilder ().create().fromJson(this, Map::class.java) as Map<String, Any>
 }
+
+fun String.removeDot (): String
+{
+    return this.indexOf(".").takeIf { it != -1 }?.let {
+        this.substring(0, it)
+    } ?: this
+}

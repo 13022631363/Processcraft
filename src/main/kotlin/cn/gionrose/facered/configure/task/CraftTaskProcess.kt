@@ -89,7 +89,7 @@ class CraftTaskProcess(override val sourceFile: File , override var isRelease: B
 
     fun getStartConsume (consumeType: String): Double
     {
-        var startCoin: Double?
+        val startCoin: Double?
         val startCoinStringType: String = currentTaskNameSection!!.getString(consumeType) ?: return 0.0
         try {
             startCoin = startCoinStringType.notExistAddDot().toDouble()
@@ -99,6 +99,39 @@ class CraftTaskProcess(override val sourceFile: File , override var isRelease: B
             throw RuntimeException ("在获取 开始前消耗金币数量时 您的${if (consumeType == "startCoin") "startCoin" else "startPoint" }数量不符合要求 => $startCoinStringType")
         }
         return startCoin
+    }
+
+    fun getModelData (): Int
+    {
+        return currentTaskNameSection!!.getInt ("modelData")
+    }
+
+    fun getDefaultModelData (): Int
+    {
+        return currentTaskNameSection!!.getInt ("defaultModelData")
+    }
+
+    fun getLore (): List<String>
+    {
+        val result = currentTaskNameSection!!.getStringList("lore")
+        if (result.isEmpty())
+            return result
+        result.forEach {
+            if (!it.isNotNullCharacter())
+                result.remove(it)
+        }
+
+        return result
+    }
+
+    fun getButtonName (): String
+    {
+        return currentTaskNameSection!!.getString("buttonName") ?: throw RuntimeException ("请配置 ${configFile.name} 中的 buttonName...")
+    }
+
+    fun getDefaultButtonName (): String
+    {
+        return currentTaskNameSection!!.getString("defaultButtonName") ?: throw RuntimeException ("请配置 ${configFile.name} 中的 defaultButtonName...")
     }
 
     fun loadAll (): List<CraftTask>
@@ -118,7 +151,10 @@ class CraftTaskProcess(override val sourceFile: File , override var isRelease: B
                         currentTaskNameSection!!.name,
                         getTime(),
                         getCommands(),
-                        getDoneQuicklyPercentage()))
+                        getDoneQuicklyPercentage(),
+                        getButtonName(),
+                        getModelData(),
+                        getLore()))
 
                 }else
                     continue

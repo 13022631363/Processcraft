@@ -4,10 +4,14 @@ import cn.gionrose.facered.hook.PlayerPointsHook
 import cn.gionrose.facered.hook.VaultHook
 import cn.gionrose.facered.util.TimeContainer
 import cn.gionrose.facered.util.notExistAddDot
+import cn.gionrose.facered.util.removeDot
 import org.bukkit.entity.Player
 
 
-class CraftTask (val startTaskNeedPoint: Double, val startTaskNeedCoins: Double, val id: String,var needTime: String, var commands: List<String>, var doneQuicklyPercentage: List<String>)
+class CraftTask (val startTaskNeedPoint: Double, val startTaskNeedCoins: Double,
+                 val id: String,var needTime: String, var commands: List<String>,
+                 var doneQuicklyPercentage: List<String>, val buttonName: String,
+                 val modelData: Int, val lore: List<String>)
 {
     /**
      * 是否完成
@@ -29,6 +33,8 @@ class CraftTask (val startTaskNeedPoint: Double, val startTaskNeedCoins: Double,
     lateinit var endTime: TimeContainer
 
     lateinit var remainTime: TimeContainer
+
+
 
     /**
      * 命令执行器
@@ -197,9 +203,12 @@ class CraftTask (val startTaskNeedPoint: Double, val startTaskNeedCoins: Double,
             put ("id", id)
             put ("needTime", needTime)
             put ("startTaskNeedCoins", startTaskNeedCoins)
-            put("startTaskNeedPoint", startTaskNeedPoint)
+            put ("startTaskNeedPoint", startTaskNeedPoint)
             put ("commands", commands)
-            put("doneQuicklyPercentage", doneQuicklyPercentage)
+            put ("doneQuicklyPercentage", doneQuicklyPercentage)
+            put ("buttonName", buttonName)
+            put ("modelData", modelData)
+            put ("lore", lore)
         }
     }
 
@@ -225,7 +234,10 @@ class CraftTask (val startTaskNeedPoint: Double, val startTaskNeedCoins: Double,
                     it["id"].toString(),
                     it["needTime"].toString(),
                     it["commands"] as List<String>,
-                    it["doneQuicklyPercentage"] as List<String>
+                    it["doneQuicklyPercentage"] as List<String>,
+                    it["buttonName"].toString(),
+                    it["modelData"].toString().removeDot().toInt(),
+                    it["lore"] as List<String>,
                 )
                task.remainTime = TimeContainer.parse(it["remainTime"] as String)
                task.reloadEndTime()
@@ -238,6 +250,6 @@ class CraftTask (val startTaskNeedPoint: Double, val startTaskNeedCoins: Double,
     }
     fun clone (): CraftTask
     {
-        return CraftTask (startTaskNeedPoint, startTaskNeedCoins, id, needTime, commands, doneQuicklyPercentage)
+        return CraftTask (startTaskNeedPoint, startTaskNeedCoins, id, needTime, commands, doneQuicklyPercentage, buttonName, modelData, lore)
     }
 }

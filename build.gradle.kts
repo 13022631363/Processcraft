@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "cn.gionrose.facered"
-version = "1.0.1-02"
+version = "1.0.1-04"
 
 repositories {
 
@@ -18,7 +18,6 @@ repositories {
         url = uri("https://repo.rosewooddev.io/repository/public/")
 
     }
-
 }
 
 dependencies {

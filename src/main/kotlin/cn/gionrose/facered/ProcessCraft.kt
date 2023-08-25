@@ -1,6 +1,7 @@
 package cn.gionrose.facered
 
 import cn.gionrose.facered.command.ProcessCraftCommand
+import cn.gionrose.facered.configure.ConfigProcessor
 import cn.gionrose.facered.configure.task.CraftTaskProcess
 import cn.gionrose.facered.database.CraftTaskStorage
 import cn.gionrose.facered.hook.HookManager
@@ -34,6 +35,8 @@ class ProcessCraft: JavaPlugin ()
         CraftTaskProcess (File (File (dataFolder, "craftTask"), "craftTask.yml"))
         CraftTaskManager.loadAll()
 
+        ConfigProcessor.configFile
+
         HookManager.register(VaultHook, PlayerPointsHook, PapiHook)
         HookManager.load()
 
@@ -48,8 +51,8 @@ class ProcessCraft: JavaPlugin ()
     }
 
     override fun onDisable() {
-        Bukkit.getOnlinePlayers().forEach {
-            CraftTaskStorage.save (TaskHolderManager.getHolderByPlayer(it))
+        Bukkit.getOnlinePlayers().forEach {player ->
+            TaskHolderManager.getHolderByPlayer(player).takeIf { !it.isEmpty()}?.let { CraftTaskStorage.save (it) }
         }
         seeyou()
     }

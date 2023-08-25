@@ -118,6 +118,7 @@ object TaskHolderManager
                 //将到期时间设置到现在
                 //代表立刻结束
                 it.endTime = TimeContainer.getCurrentTime()
+                return true
             }
             //更新剩余时间
             it.updateRemainTime()

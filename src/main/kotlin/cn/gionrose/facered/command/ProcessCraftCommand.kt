@@ -47,9 +47,16 @@ object ProcessCraftCommand: CommandExecutor, TabExecutor
                             result.add(it)
                         }
                     }
-                    "finishTask","fastFinishTask" -> {
+                    "finishTask" -> {
                         for (i in 0 until TaskHolderManager.getHolderByPlayer(sender).taskSize()) {
                             result.add(i.toString())
+                        }
+                    }
+                    "fastFinishTask" -> {
+                        val holder = TaskHolderManager.getHolderByPlayer(sender)
+                        for (i in 0 until holder.taskSize()) {
+                            if (!holder.getTask(i).updateIsFinish())
+                                result.add(i.toString())
                         }
                     }
                 }
